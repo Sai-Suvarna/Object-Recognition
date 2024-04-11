@@ -124,7 +124,33 @@
    
    
 
-   
+    <div class="row" style="display: flex;flex-direction: row;">
+        <div class="result-container col-lg-12" style="text-align: center;">
+            <h1 style="margin-bottom: 3vh;"> List of Objects :</h1>
+            <div >
+                <ul style="display: flex; flex-direction: row; justify-content: center;"> 
+                    {% for object in res %}
+                    <li style="font-size: 24px;margin-right: 8vw;">{{ object }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+              
+        <h1 style="margin-bottom: 3vh; margin-left: 2vw;margin-top: 3vh;"> Object Insights :</h1>
+        <div class="col-lg-12" style="padding-left: 2%; padding-right: 2%;">
+            
+            <ul style="list-style-type: none; padding: 0; text-align: justify;">
+                {% for result in object_results %}
+                    <li>
+                        <h2 style="color: #7b0498;">{{ result.Name }}</h2>
+                        <p>{{ result.Description }}</p>
+                        <p><a href="{{ result['Detailed Description'] }}">Detailed Description</a></p>
+                    </li>
+                {% endfor %}
+            </ul>                
+        </div>
+    </div>
 
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

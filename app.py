@@ -52,6 +52,15 @@ model = genai.GenerativeModel('gemini-pro-vision')
 def index(request: Request):
     return templates.TemplateResponse("open.html", {"request": request})
 
+@app.get('/upload')
+def index(request: Request):
+    return templates.TemplateResponse("upload.html", {"request": request})
+
+@app.get('/result')
+def index(request: Request):
+    return templates.TemplateResponse("result.html", {"request": request})
+
+
 def to_markdown(text):
   text = text.replace('•', '  *')
   return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
@@ -124,7 +133,7 @@ async def upload_image( request: Request,image_file: UploadFile = File(...)):
     }
 
 
-    return templates.TemplateResponse("open.html", context)
+    return templates.TemplateResponse("result.html", context)
 
 
 
