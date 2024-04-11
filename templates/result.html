@@ -67,12 +67,13 @@
         }
 
         .result-container {
-            height: 20vh;
-            background-color: #fff;
+            height: 60vh;
+            background-color: #fae3f4;
             width: 40vw;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
@@ -122,21 +123,27 @@
     
 </nav>
    
-   
+  
+
 
     <div class="row" style="display: flex;flex-direction: row;">
-        <div class="result-container col-lg-12" style="text-align: center;">
-            <h1 style="margin-bottom: 3vh;"> List of Objects :</h1>
+         <!-- Add this code to display the uploaded image -->
+         <div class="result-container col-lg-4"  style=" margin:5%; text-align: center; margin-left: 12%; margin-right: 4%;">
+            <h1>Your Image</h1>
+    <img style= "width: 30vw; height: 40vh; " src="{{ image_path }}" alt="Uploaded Image">
+   </div>
+        <div class="result-container col-lg-4" style="margin:5%; margin-left: 4%; margin-right: 12%; ">
+            <h1 style="margin-bottom: 3vh; text-align: center;"> Know Your Objects :</h1>
             <div >
-                <ul style="display: flex; flex-direction: row; justify-content: center;"> 
+                <ul > 
                     {% for object in res %}
-                    <li style="font-size: 24px;margin-right: 8vw;">{{ object }}</li>
+                    <li style="font-size: 24px;">{{ object }}</li>
                     {% endfor %}
                 </ul>
             </div>
 
         </div>
-              
+    </div>    
         <h1 style="margin-bottom: 3vh; margin-left: 2vw;margin-top: 3vh;"> Object Insights :</h1>
         <div class="col-lg-12" style="padding-left: 2%; padding-right: 2%;">
             
@@ -150,7 +157,7 @@
                 {% endfor %}
             </ul>                
         </div>
-    </div>
+   
 
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

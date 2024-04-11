@@ -30,7 +30,10 @@ from google.cloud.vision_v1 import types
 import os
 import requests
 
-
+from fastapi import FastAPI, File, UploadFile, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+import shutil
 
 
 load_dotenv()
@@ -100,7 +103,6 @@ def display_knowledge_graph_data(data, query):
 
 
 
-
 @app.post("/upload_image", response_class=HTMLResponse)
 async def upload_image( request: Request,image_file: UploadFile = File(...)):
     image_path = f"{UPLOAD_FOLDER}/{image_file.filename}"
@@ -126,10 +128,20 @@ async def upload_image( request: Request,image_file: UploadFile = File(...)):
     
     print(object_results)
 
+    #  # Save the uploaded image to a folder
+    # with open("biriyani.jpg", "wb") as buffer:
+    #     shutil.copyfileobj(image_file.file, buffer)
+    
+    # # Get the uploaded image URL
+    # uploaded_image_url = "/static/biriyani.jpg"  # Example URL, replace with actual URL
+    
+
     context = {
         "request": request,
         "res":res,
-        "object_results":object_results
+        "object_results":object_results,
+        "image_path": image_path
+        
     }
 
 
