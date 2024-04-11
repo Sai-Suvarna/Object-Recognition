@@ -3,10 +3,9 @@ uvicorn
 pandas
 Jinja2==3.0.3
 fastapi-sqlalchemy
-python-dotenv
-flask
 python-multipart
-tensorflow
 requests
 easyocr
 psycopg2
+google-generativeai
+google-cloud-vision
