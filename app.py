@@ -37,7 +37,7 @@ from fastapi.templating import Jinja2Templates
 import shutil
 import requests
 import string
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 
 load_dotenv()
@@ -104,7 +104,7 @@ def display_knowledge_graph_data(data, query,upimage):
                         "item_image": item_image
                     }
                     results.append(result_dict)
-                    unique_names.add(name)
+                    unique_names.add(name.lower())
                 else:
                     model1 = genai.GenerativeModel('gemini-pro')
                     query="Give me a description of 60 words about" + name
@@ -121,7 +121,9 @@ def display_knowledge_graph_data(data, query,upimage):
                         "item_image": item_image
                     }
                     results.append(result_dict)
-                    unique_names.add(name)
+                    unique_names.add(name.lower())
+
+    print(unique_names)
 
     return results
 
