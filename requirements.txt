@@ -9,3 +9,4 @@ easyocr
 psycopg2
 google-generativeai
 google-cloud-vision
+python-dotenv

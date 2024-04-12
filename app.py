@@ -34,6 +34,9 @@ from fastapi import FastAPI, File, UploadFile, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import shutil
+import requests
+import string
+from bs4 import BeautifulSoup
 
 
 load_dotenv()
@@ -90,14 +93,16 @@ def display_knowledge_graph_data(data, query):
             if name.lower() == query.lower() and name not in unique_names:  # Check if the name is unique
                 description = item["result"].get("detailedDescription", {}).get("articleBody", "No detailed description available")
                 detailed_description = item["result"].get("detailedDescription", {}).get("url", "No detailed description available")
-
+                item_image = item["result"].get("image", {}).get("contentUrl", "No image available")
+                
                 result_dict = {
                     "Name": name,
                     "Description": description,
-                    "Detailed Description": detailed_description
+                    "Detailed Description": detailed_description,
+                    "item_image":item_image
                 }
                 results.append(result_dict)
-                unique_names.add(name)  # Add the name to the set of unique names
+                unique_names.add(name)   
                 
     return results
 
@@ -128,14 +133,7 @@ async def upload_image( request: Request,image_file: UploadFile = File(...)):
     
     print(object_results)
 
-    #  # Save the uploaded image to a folder
-    # with open("biriyani.jpg", "wb") as buffer:
-    #     shutil.copyfileobj(image_file.file, buffer)
     
-    # # Get the uploaded image URL
-    # uploaded_image_url = "/static/biriyani.jpg"  # Example URL, replace with actual URL
-    
-
     context = {
         "request": request,
         "res":res,

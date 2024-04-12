@@ -69,3 +69,27 @@
     margin-right: 10px;
 	
 }
+
+
+.menu-item-image {
+    border-radius: 16px;
+    padding: 8px;
+	width: 20vw;
+	height: 40vh;
+    padding-bottom: 0px;
+}
+
+.menu-card-title {
+    padding-left: 8px;
+    color: #323f4b;
+    font-family: "Roboto";
+    font-size: 28px;
+    font-weight: 500;
+    margin-top: 24px;
+}
+
+
+.menu-item-card {
+    border-radius: 16px;
+	background-color: #fff;
+}
