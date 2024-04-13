@@ -69,7 +69,7 @@ def index(request: Request):
 
 @app.get('/live')
 def login(request: Request):
-    return templates.TemplateResponse("live.html", {"request": request})
+    return templates.TemplateResponse("live1.html", {"request": request})
 
 import logging
 import base64
@@ -183,7 +183,6 @@ logger = logging.getLogger(__name__)
 
 @app.post("/submit_snapshot", response_class=HTMLResponse)
 async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
-    try:
         # Define the path where you want to save the image
         static_folder = "static"  # Or any other folder where you want to save the images
         image_path = os.path.join(static_folder, image_file.filename)
@@ -221,9 +220,7 @@ async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
         
         return templates.TemplateResponse("result.html", context)
     
-    except Exception as e:
-        logger.exception("An error occurred while processing the snapshot: %s", e)
-        raise HTTPException(status_code=500, detail="Internal server error")
+    
 
 
 

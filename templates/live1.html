@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="./static/cs.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/20c5629a29.js" crossorigin="anonymous"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@300;500;600&display=swap">
+ <style>
+        body, html {
+            height: 100%;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-top: -20px; /* Move containers up */
+        }
+        
+        .left-container, .right-container {
+            margin-top: -10px; /* Move containers up */
+            text-align: center;
+        }
+        
+        .right-container {
+            background-color: #ee97f8;
+            text-align: center;
+            margin-left: 6vw;
+            justify-content: center;
+            border-radius: 18px;  
+        }
+        
+        
+        .input-container input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+        
+        #upload-button {
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+            max-height: 300px; /* Set constant height */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        #uploaded-image {
+            max-width: 30%;
+            height: 20vh; /* Set constant height */
+            width: auto;
+            display: none; /* Initially hide the uploaded image */
+        }
+
+        .result-container {
+            height: 20vh;
+            background-color: #fff;
+            width: 40vw;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        #result-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #result-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        #result-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        #result-list li:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark "  style="background-color: rgb(208, 15, 202);">
+  
+        <a class="navbar-brand food-munch-logo" href="#">
+          <p style="font-size: 34px; font-family: 'MuseoModerno', sans-serif;"><span><i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 1vw;"></i>     InSight</p>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="#">About</a></li>
+                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="/upload">Upload</a></li>
+            </ul>
+        </div>
+    
+</nav>
+   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-12 col-lg-6">
+                <div class="left-container">
+                    <h2>Welcome to Our Object Detection Website</h2>
+                    <img src="./static/4537623.jpg"/ style="width: 30vw; height: 40vh;">
+                </div>
+            </div>
+            <div class="right-container col-lg-5 col-12 " style="padding-top: 4vh; width: 40vw; height: 48vh;">
+                <div class="img-area" style="background-color: #ddd;" data-img="" >
+
+                    <video id="video" autoplay></video>
+                    <i class='bx bxs-cloud-upload icon'></i>
+                    <h3>Click Image</h3>
+                    <p style="color: black;">Image size must be less than <span>2MB</span></p>
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                  <button id="startButton" class="custom-button mb-3" style="background-color: #9708b7;">Start Camera</button>
+                  <button id="snapButton" class="custom-button mb-3" style="background-color: #9708b7;">Take Snapshot</button>
+                  <canvas id="canvas" style="display: none;"></canvas>
+
+                </div>
+           
+            </div>
+        </div>
+    </div>
+<!-- Form for submitting the snapshot -->
+<form id="imageForm" enctype="multipart/form-data" style="display: none;">
+    <input type="file" id="imageInput" name="image_file">
+</form>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha384-GVjR/gg+8sv7J5qLgEVSvL15B/1+/txcP7q2c4FrxHfORgvbX+YK3p2MvEQh27I5" crossorigin="anonymous"></script>
+ 
+ <!-- Include JavaScript -->
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const startButton = document.getElementById('startButton');
+        const snapButton = document.getElementById('snapButton');
+        const imageForm = document.getElementById('imageForm');
+        const constraints = {
+            video: true
+        };
+
+        let stream; // To store the video stream
+
+        startButton.addEventListener('click', async () => {
+            try {
+                // Get access to the webcam
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error accessing webcam:', err);
+            }
+        });
+
+        snapButton.addEventListener('click', () => {
+    // Get the context of the canvas
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas content to a data URL
+    const imgData = canvas.toDataURL('image/png');
+
+    // Create a Blob from the base64 data
+    const blob = base64ToBlob(imgData);
+
+    // Create a FormData object
+    const formData = new FormData();
+
+    // Append the Blob as an UploadFile to the FormData
+    formData.append('image_file', blob, 'snapshot.png');
+
+    // Submit the form with the FormData
+    fetch('/submit_snapshot', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        // Redirect to the result page
+        window.location.href = "result.html";
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    // Stop the camera stream
+    stopCameraStream();
+});
+
+
+        // Function to stop the camera stream
+        function stopCameraStream() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => {
+                    track.stop();
+                });
+                video.srcObject = null;
+            }
+        }
+
+        // Function to convert base64 to Blob
+        function base64ToBlob(base64Data) {
+            const byteCharacters = atob(base64Data.split(',')[1]);
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            return new Blob(byteArrays, { type: 'image/png' });
+        }
+    });
+   
+
+</script>
+
+
+</body>
+</html>
