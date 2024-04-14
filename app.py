@@ -38,6 +38,8 @@ import shutil
 import requests
 import string
 # from bs4 import BeautifulSoup
+import base64
+import uuid
 
 
 load_dotenv()
@@ -60,23 +62,23 @@ def index(request: Request):
     return templates.TemplateResponse("open.html", {"request": request})
 
 @app.get('/upload')
-def index(request: Request):
+def upload(request: Request):
     return templates.TemplateResponse("upload.html", {"request": request})
 
 @app.get('/result')
-def index(request: Request):
+def result(request: Request):
     return templates.TemplateResponse("result.html", {"request": request})
 
 @app.get('/live')
-def login(request: Request):
-    return templates.TemplateResponse("live1.html", {"request": request})
+def live(request: Request):
+    return templates.TemplateResponse("live.html", {"request": request})
 
-import logging
-import base64
-import uuid
-logger = logging.getLogger(__name__)
 
-import logging
+@app.get('/search')
+def live(request: Request):
+    return templates.TemplateResponse("search.html", {"request": request})
+
+
 
 
 
@@ -114,7 +116,7 @@ def display_knowledge_graph_data(data, query,upimage):
                         "item_image": item_image
                     }
                     results.append(result_dict)
-                    unique_names.add(name.lower())
+                    unique_names.add(name)
                 else:
                     model1 = genai.GenerativeModel('gemini-pro')
                     query="Give me a description of 60 words about" + name
@@ -131,8 +133,37 @@ def display_knowledge_graph_data(data, query,upimage):
                         "item_image": item_image
                     }
                     results.append(result_dict)
-                    unique_names.add(name.lower())
+                    unique_names.add(name)
 
+    print(unique_names)
+
+    return results
+
+
+
+def display_knowledge_graph_data1(data, query):
+    results = []
+    unique_names = set()  # Maintain a set of unique names
+    
+    if "itemListElement" in data:
+        for item in data["itemListElement"]:
+            name = item["result"]["name"]
+            print(name)
+            if name.lower() == query.lower() and name not in unique_names:  # Check if the name is unique
+                item_image = item["result"].get("image", {}).get("contentUrl", "No image available")
+                description = item["result"].get("detailedDescription", {}).get("articleBody", "No detailed description available")
+
+                detailed_description = item["result"].get("detailedDescription", {}).get("url", "No detailed description available")
+
+                result_dict = {
+                        "Name": name,
+                        "Description": description,
+                        "Detailed Description": detailed_description,
+                        "item_image": item_image
+                    }
+                results.append(result_dict)
+                unique_names.add(name)
+               
     print(unique_names)
 
     return results
@@ -177,9 +208,29 @@ async def upload_image( request: Request,image_file: UploadFile = File(...)):
     return templates.TemplateResponse("result.html", context)
 
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+
+@app.post("/search_objects", response_class=HTMLResponse)
+async def search_objects(request: Request, search_word: str = Form(...)):
+    
+   
+    object_results = []
+    data = fetch_from_knowledge_graph(search_word)
+    object_data = display_knowledge_graph_data1(data, search_word)
+    
+    object_results.extend(object_data)
+    
+    print(object_results)
+
+    
+    context = {
+        "request": request,
+        "object_results":object_results
+    }
+    
+    return templates.TemplateResponse("search.html", context)
+
+
+
 
 @app.post("/submit_snapshot", response_class=HTMLResponse)
 async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
@@ -192,7 +243,6 @@ async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
             content = await image_file.read()
             img.write(content)
         
-        logger.info("Image saved successfully at: %s", image_path)
         
         img = PIL.Image.open(image_path)
 
@@ -209,7 +259,6 @@ async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
             object_data = display_knowledge_graph_data(data, obj, image_path)  # Assuming save_path is defined somewhere
             object_results.extend(object_data)
         
-        logger.info("Object results: %s", object_results)
         
         context = {
             "request": request,
@@ -218,8 +267,10 @@ async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
             "image_path": image_path
         }
         
+        print(context)
+
         return templates.TemplateResponse("result.html", context)
-    
+  
     
 
 

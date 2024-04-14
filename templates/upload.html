@@ -26,7 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%;
+            height: 95%;
             margin-top: -20px; /* Move containers up */
         }
         
@@ -42,7 +42,9 @@
             justify-content: center;
             border-radius: 18px;  
         }
-        
+        .search-dropdown {
+    margin-right: 5vw; /* Adjust the margin as needed */
+}
         
         .input-container input[type="file"] {
             display: none; /* Hide the default file input */
@@ -103,24 +105,34 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark "  style="background-color: rgb(208, 15, 202);">
-  
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(208, 15, 202);">
         <a class="navbar-brand food-munch-logo" href="#">
-          <p style="font-size: 34px; font-family: 'MuseoModerno', sans-serif;"><span><i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 1vw;"></i>     InSight</p>
+            <p style="font-size: 34px; color:white; font-family: 'MuseoModerno', sans-serif;">
+                <span><i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 1vw;"></i> InSight</span>
+            </p>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" style="color: #fff;" href="/upload">Upload</a></li>
-            </ul>
+            <div id="navtools" class="navbar-nav ml-auto">
+                <a class="nav-link" style="font-weight: bold; font-size: 20px;margin-right: 2vw; color: #fff;" id="navitem1" href="/">Home</a>
+                <a class="nav-link" style="font-weight: bold; font-size: 20px;color: #fff;margin-right: 2vw; "  id="navitem2" href="#">About</a>
+                <div class="nav-item dropdown search-dropdown"> 
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; font-size: 20px;color: #fff;">
+                        Search
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/upload">Upload an Image</a>
+                        <a class="dropdown-item" href="/live">Upload a Live Item</a>
+                        <a class="dropdown-item" href="/search">Search by a Word</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    
-</nav>
+    </nav>
+   
    
     <div class="container">
         <div class="row">
@@ -130,8 +142,13 @@
                     <img src="./static/4537623.jpg"/ style="width: 30vw; height: 40vh;">
                 </div>
             </div>
-            <div class="right-container col-lg-5 col-12 " style="padding-top: 4vh; width: 40vw; height: 48vh;">
-                <form action="/upload_image" method="post" enctype="multipart/form-data" id="uploadForm">
+
+            <div class="col-lg-5 col-md-5 col-12" style="display: flex;flex-direction: column;justify-content: space-around;">
+            
+            <div class="right-container" style=" padding: 4vh; width: 30vw; height: 48vh;">
+            
+                
+            <form action="/upload_image" method="post" enctype="multipart/form-data" id="uploadForm">
                 <div class="img-area" style="background-color: #ddd;" data-img="" >
                     <i class='bx bxs-cloud-upload icon'></i>
                     <h3>Upload Image</h3>
@@ -142,9 +159,15 @@
                 <button class="custom-button mb-3" style="background-color: #9708b7;" type="submit">Upload Image</button>
                 </div>
             </form>
+            
             </div>
+            
+            </div>
+
         </div>
     </div>
+
+    
 
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
