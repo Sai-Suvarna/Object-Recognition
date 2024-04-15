@@ -36,6 +36,7 @@
             height: 100%;
             margin-top: -20px;
             /* Move containers up */
+            margin-bottom: 20px; /* Add margin to prevent overlap */
         }
 
         .left-container,
@@ -119,6 +120,9 @@
 
         /* Adjustments for smaller screens */
         @media (max-width: 768px) {
+            .container{
+                margin-top: 10vh;
+            }
             .right-container,
             .left-container {
                 margin-left: 0;
@@ -130,7 +134,7 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(208, 15, 202);">
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgb(208, 15, 202);">
         <a class="navbar-brand food-munch-logo" href="#">
             <p style="font-size: 34px; color:white; font-family: 'MuseoModerno', sans-serif;">
                 <span><i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 1vw;"></i> InSight</span>

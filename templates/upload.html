@@ -1,113 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Object Detection Website</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Other CSS Styles -->
     <link rel="stylesheet" href="./static/cs.css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/20c5629a29.js" crossorigin="anonymous"></script>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@300;500;600&display=swap">
- <style>
-        body, html {
-            height: 100%;
-        }
-        
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 95%;
-            margin-top: -20px; /* Move containers up */
-        }
-        
-        .left-container, .right-container {
-            margin-top: -10px; /* Move containers up */
-            text-align: center;
-        }
-        
-        .right-container {
-            background-color: #ee97f8;
-            text-align: center;
-            margin-left: 6vw;
-            justify-content: center;
-            border-radius: 18px;  
-        }
-        .search-dropdown {
-    margin-right: 5vw; /* Adjust the margin as needed */
-}
-        
-        .input-container input[type="file"] {
-            display: none; /* Hide the default file input */
-        }
-        
-        #upload-button {
-            cursor: pointer;
-            width: 100%;
-            height: auto;
-            max-height: 300px; /* Set constant height */
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        #uploaded-image {
-            max-width: 30%;
-            height: 20vh; /* Set constant height */
-            width: auto;
-            display: none; /* Initially hide the uploaded image */
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@300;500;600&display=swap" rel="stylesheet">
+    <!-- BoxIcons CSS -->
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* Your Custom Styles */
+        .row
+        {
+            margin-top: 4vh;
         }
 
-        .result-container {
-            height: 20vh;
-            background-color: #fff;
-            width: 40vw;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-
-        #result-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #result-list li {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        #result-list li:last-child {
-            margin-bottom: 0;
-        }
-
-        #result-list li:hover {
-            background-color: #e9e9e9;
+        @media (min-width: 992px) {
+            .left-container img {
+                max-height: 70vh; /* Adjust to 70% of viewport height */
+            }
         }
     </style>
 </head>
 <body>
-
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(208, 15, 202);">
-        <a class="navbar-brand food-munch-logo" href="#">
+        <a class="navbar-brand" href="#">
             <p style="font-size: 34px; color:white; font-family: 'MuseoModerno', sans-serif;">
                 <span><i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 1vw;"></i> InSight</span>
             </p>
@@ -116,9 +40,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div id="navtools" class="navbar-nav ml-auto">
-                <a class="nav-link" style="font-weight: bold; font-size: 20px;margin-right: 2vw; color: #fff;" id="navitem1" href="/">Home</a>
-                <a class="nav-link" style="font-weight: bold; font-size: 20px;color: #fff;margin-right: 2vw; "  id="navitem2" href="#">About</a>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-link" style="font-weight: bold; font-size: 20px;margin-right: 2vw; color: #fff;" href="/">Home</a>
+                <a class="nav-link" style="font-weight: bold; font-size: 20px;color: #fff;margin-right: 2vw; "  href="#">About</a>
                 <div class="nav-item dropdown search-dropdown"> 
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: bold; font-size: 20px;color: #fff;">
                         Search
@@ -132,46 +56,38 @@
             </div>
         </div>
     </nav>
-   
-   
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-12 col-lg-6">
-                <div class="left-container">
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row justify-content-center" >
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="left-container text-center">
                     <h2>Welcome to Our Object Detection Website</h2>
-                    <img src="./static/4537623.jpg"/ style="width: 30vw; height: 40vh;">
+                    <img src="./static/4537623.jpg" style="max-width: 100%; height: auto;" alt="Object Detection Image">
                 </div>
             </div>
-
-            <div class="col-lg-5 col-md-5 col-12" style="display: flex;flex-direction: column;justify-content: space-around;">
-            
-            <div class="right-container" style=" padding: 4vh; width: 30vw; height: 48vh;">
-            
-                
-            <form action="/upload_image" method="post" enctype="multipart/form-data" id="uploadForm">
-                <div class="img-area" style="background-color: #ddd;" data-img="" >
-                    <i class='bx bxs-cloud-upload icon'></i>
-                    <h3>Upload Image</h3>
-                    <p style="color: black;">Image size must be less than <span>2MB</span></p>
+            <div class="d-flex flex-column justify-content-center col-lg-5 col-md-6 col-sm-12 mt-4 mt-md-0">
+                <div class=" right-container text-center  p-4" style="background-color: rgba(230, 38, 224, 0.853) ;border-radius:40px;">
+                    <form action="/upload_image" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <div class="img-area mb-3" style="background-color: #ddd;">
+                            <i class='bx bxs-cloud-upload icon'></i>
+                            <h3>Upload Image</h3>
+                            <p style="color: black;">Image size must be less than <span>2MB</span></p>
+                        </div>
+                        <div class="align-items-center">
+                            <input class="select-image mb-3" type="file" name="image_file" accept="image/*" required id="imageFileInput">
+                            <button class="custom-button" style="background-color: #9708b7;" type="submit">Upload Image</button>
+                        </div>
+                    </form>
                 </div>
-                <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                  <input class="select-image" type="file" name="image_file" accept="image/*" required id="imageFileInput">
-                <button class="custom-button mb-3" style="background-color: #9708b7;" type="submit">Upload Image</button>
-                </div>
-            </form>
-            
             </div>
-            
-            </div>
-
         </div>
     </div>
 
-    
-
-    
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha384-GVjR/gg+8sv7J5qLgEVSvL15B/1+/txcP7q2c4FrxHfORgvbX+YK3p2MvEQh27I5" crossorigin="anonymous"></script>
     <script>
         document.getElementById("imageFileInput").addEventListener("change", function(event) {
          const file = event.target.files[0];
