@@ -25,9 +25,12 @@
     <style>
         body,
         html {
-            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* To prevent horizontal scrolling */
             background-color: #f3eeeee0;
         }
+
 
         .container {
             display: flex;
@@ -35,15 +38,16 @@
             align-items: center;
             height: 100%;
             margin-top: -20px;
-            /* Move containers up */
-            margin-bottom: 20px; /* Add margin to prevent overlap */
+            margin-bottom: 20px;
+            /* Add margin to prevent overlap */
         }
 
         .left-container,
         .right-container {
             margin-top: -10px;
-            /* Move containers up */
-            text-align: center;
+           
+            text-align: center;            
+            
         }
 
         .right-container {
@@ -72,7 +76,8 @@
         }
 
         #uploaded-image {
-            max-width: 100%; /* Make the image fill its container */
+            max-width: 100%;
+            /* Make the image fill its container */
             height: auto;
             display: none;
             /* Initially hide the uploaded image */
@@ -84,7 +89,10 @@
             padding-bottom: 20px;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px; /* Add some margin between containers */
+            margin-bottom: 20px;
+            margin-top: 10vh;
+            margin-left: 10vw;
+            /* Add some margin between containers */
         }
 
         h1 {
@@ -117,16 +125,26 @@
             margin-right: 5vw;
             /* Adjust the margin as needed */
         }
+        .img-fluid
+        {
+            height: 50vh; 
+            width: 40vw;
+        }
 
         /* Adjustments for smaller screens */
         @media (max-width: 768px) {
-            .container{
+            .container {
                 margin-top: 10vh;
             }
+
             .right-container,
             .left-container {
                 margin-left: 0;
                 margin-right: 0;
+            }
+            .img-fluid
+            { 
+                width: 80vw;
             }
         }
     </style>
@@ -171,15 +189,17 @@
 
             <div class="result-container col-lg-4 col-md-12" style=" margin:5%; text-align: center;">
                 <h1>Your Image</h1>
-                <img class="img-fluid" src="{{ image_path }}"
-                    alt="Uploaded Image">
+                <img class="img-fluid"  src="{{ image_path }}" alt="Uploaded Image">
             </div>
             <div class="result-container col-lg-4 col-md-12" style="margin:5%;">
                 <h1 style="margin-bottom: 3vh; text-align: center;"> Know Your Objects :</h1>
                 <div>
                     <ul>
                         {% for object in res %}
-                        <li style="font-size: 24px;">{{ object }}</li>
+                        <li style="font-size: 24px; cursor: pointer;" class="object-name"
+                            data-toggle="modal" data-target="#result{{ loop.index }}">
+                            {{ object }}
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -187,45 +207,36 @@
         </div>
     </div>
 
-    <h1 style="margin-bottom: 3vh; margin-left: 2vw; margin-top: 3vh;"> Object Insights :</h1>
     <div style="padding-left: 2%; padding-right: 2%;">
         <div class="row">
             {% for result in object_results %}
-            <div class="col-12 col-md-4 col-lg-4 mb-3">
-                <div class="shadow menu-item-card" style="padding: 8px;">
-                    <img src="{{ result.item_image }}" class="menu-item-image w-100" />
-                    <h1 class="menu-card-title"><b>{{ result.Name }}</b></h1>
-                    <p style="text-align: justify;margin: 2%;">{{ result.Description }}</p>
-                    <p><a href="{{ result['Detailed Description'] }}">Detailed Description -></a></p>
+            <div class="modal fade" id="result{{ loop.index }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Object Insight</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ result.item_image }}" class="menu-item-image w-100" />
+                            <h1 class="menu-card-title"><b>{{ result.Name }}</b></h1>
+                            <p style="text-align: justify;margin: 2%;">{{ result.Description }}</p>
+                            <p><a href="{{ result['Detailed Description'] }}">Detailed Description
+                                    -></a></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
-        integrity="sha384-GVjR/gg+8sv7J5qLgEVSvL15B/1+/txcP7q2c4FrxHfORgvbX+YK3p2MvEQh27I5"
-        crossorigin="anonymous"></script>
-    <script>
-        document.getElementById("imageFileInput").addEventListener("change", function (event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const imgArea = document.querySelector(".img-area");
-                imgArea.innerHTML = '';
-
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.style.maxWidth = "100%";
-                img.style.maxHeight = "100%";
-                imgArea.appendChild(img);
-            };
-
-            reader.readAsDataURL(file);
-        });
-    </script>
 </body>
 
 </html>

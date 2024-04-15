@@ -108,7 +108,7 @@ def display_knowledge_graph_data(data, query,upimage):
                     description = item["result"].get("detailedDescription", {}).get("articleBody", "No detailed description available")
 
                     detailed_description = item["result"].get("detailedDescription", {}).get("url", "No detailed description available")
-
+                    
                     result_dict = {
                         "Name": name,
                         "Description": description,
