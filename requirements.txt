@@ -2,8 +2,6 @@ fastapi
 uvicorn
 pandas
 Jinja2==3.0.3
-fastapi-sqlalchemy
-python-multipart
-requests
+google-cloud-vision
 
 

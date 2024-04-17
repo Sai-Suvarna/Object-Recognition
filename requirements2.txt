@@ -1,0 +1,4 @@
+python-dotenv
+IPython
+easyocr
+psycopg2

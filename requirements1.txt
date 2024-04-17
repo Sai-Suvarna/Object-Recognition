@@ -1,6 +1,2 @@
 google-generativeai
-google-cloud-vision
-python-dotenv
-IPython
-easyocr
-psycopg2
+
