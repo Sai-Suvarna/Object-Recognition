@@ -170,8 +170,10 @@ def display_knowledge_graph_data1(data, query):
 
 
 
-@app.post("/upload_image", response_class=HTMLResponse)
-async def upload_image( request: Request,image_file: UploadFile = File(...)):
+from fastapi.responses import JSONResponse
+
+@app.post("/upload_image", response_class=JSONResponse)
+async def upload_image(request: Request, image_file: UploadFile = File(...)):
     image_path = f"{UPLOAD_FOLDER}/{image_file.filename}"
     save_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
     
@@ -195,82 +197,68 @@ async def upload_image( request: Request,image_file: UploadFile = File(...)):
     
     print(object_results)
 
-    
-    context = {
-        "request": request,
-        "res":res,
-        "object_results":object_results,
+    return {
+        "res": res,
+        "object_results": object_results,
         "image_path": image_path
-        
     }
 
 
-    return templates.TemplateResponse("result.html", context)
 
-
-
-@app.post("/search_objects", response_class=HTMLResponse)
+@app.post("/search_objects", response_class=JSONResponse)
 async def search_objects(request: Request, search_word: str = Form(...)):
-    
-   
     object_results = []
     data = fetch_from_knowledge_graph(search_word)
     object_data = display_knowledge_graph_data1(data, search_word)
-    
     object_results.extend(object_data)
-    
     print(object_results)
 
+    return {
+        "object_results": object_results
+    }
+
+
+
+from fastapi.responses import JSONResponse
+
+@app.post("/submit_snapshot", response_class=JSONResponse)
+async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
+    # Define the path where you want to save the image
+    static_folder = "static"  # Or any other folder where you want to save the images
+    image_path = os.path.join(static_folder, image_file.filename)
+    print(image_path)
+    # Save the image
+    with open(image_path, "wb") as img:
+        content = await image_file.read()
+        img.write(content)
+    
+    
+    img = PIL.Image.open(image_path)
+
+    # Assuming model.generate_content() is an asynchronous operation
+    response = model.generate_content(["Identify the only some important things that are in the image.I should have the response only consist of names of all the objects name in a single word for each one without any stopwords in the object names separated by comma in the image", img], stream=True)
+    response.resolve()
+    
+    res = response.text.split(',')
+    res = [word.strip() for word in res if word.strip()]
+    
+    object_results = []
+    for obj in res:
+        data = fetch_from_knowledge_graph(obj)
+        object_data = display_knowledge_graph_data(data, obj, image_path)  # Assuming save_path is defined somewhere
+        object_results.extend(object_data)
+    
     
     context = {
-        "request": request,
-        "object_results":object_results
+        "res": res,
+        "object_results": object_results,
+        "image_path": image_path
     }
     
-    return templates.TemplateResponse("search.html", context)
+    print(context)
 
+    return context
 
-
-
-@app.post("/submit_snapshot", response_class=HTMLResponse)
-async def save_snapshot(request: Request, image_file: UploadFile = File(...)):
-        # Define the path where you want to save the image
-        static_folder = "static"  # Or any other folder where you want to save the images
-        image_path = os.path.join(static_folder, image_file.filename)
-        print(image_path)
-        # Save the image
-        with open(image_path, "wb") as img:
-            content = await image_file.read()
-            img.write(content)
-        
-        
-        img = PIL.Image.open(image_path)
-
-        # Assuming model.generate_content() is an asynchronous operation
-        response = model.generate_content(["Identify the only some important things that are in the image.I should have the response only consist of names of all the objects name in a single word for each one without any stopwords in the object names separated by comma in the image", img], stream=True)
-        response.resolve()
-        
-        res = response.text.split(',')
-        res = [word.strip() for word in res if word.strip()]
-        
-        object_results = []
-        for obj in res:
-            data = fetch_from_knowledge_graph(obj)
-            object_data = display_knowledge_graph_data(data, obj, image_path)  # Assuming save_path is defined somewhere
-            object_results.extend(object_data)
-        
-        
-        context = {
-            "request": request,
-            "res": res,
-            "object_results": object_results,
-            "image_path": image_path
-        }
-        
-        print(context)
-
-        return templates.TemplateResponse("result.html", context)
-  
     
 
 
